@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light only">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>BEN KİMİM?</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#5b2be0">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{color-scheme:light only}
+body{font-family:'Nunito',system-ui,sans-serif;background:linear-gradient(160deg,#5b2be0,#c1349b);min-height:100vh;color:#222;display:flex;justify-content:center;padding:16px}
+#app{width:100%;max-width:440px}
+.card{background:#fff;border-radius:22px;padding:22px;box-shadow:0 10px 30px rgba(0,0,0,.2);margin-bottom:14px}
+h1{font-weight:900;font-size:38px;text-align:center;color:#fff;letter-spacing:1px;margin:14px 0 4px}
+.sub{text-align:center;color:#f3e8ff;margin-bottom:18px}
+h2{font-weight:900;font-size:22px;margin-bottom:10px}
+label{font-weight:700;font-size:14px;color:#555;display:block;margin:12px 0 6px}
+input[type=text]{width:100%;padding:13px 14px;border:2px solid #e3dcf5;border-radius:14px;font:inherit;font-size:16px;outline:none}
+input[type=text]:focus{border-color:#7c4dff}
+.btn{display:block;width:100%;padding:15px;border:none;border-radius:16px;font:inherit;font-weight:900;font-size:17px;cursor:pointer;margin-top:12px;background:#7c4dff;color:#fff}
+.btn:active{transform:scale(.98)}
+.btn.sec{background:#f0eafe;color:#5b2be0}
+.btn.small{display:inline-block;width:auto;padding:9px 14px;font-size:14px;margin:0 6px 0 0}
+.seg{display:flex;gap:8px}
+.seg button{flex:1;padding:12px;border-radius:14px;border:2px solid #e3dcf5;background:#fff;font:inherit;font-weight:900;font-size:16px;cursor:pointer}
+.seg button.on{border-color:#7c4dff;background:#7c4dff;color:#fff}
+.opt{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.opt .pick{width:34px;height:34px;flex:none;border-radius:50%;border:3px solid #d6cdee;background:#fff;cursor:pointer;font-weight:900;color:#fff}
+.opt .pick.on{background:#22c55e;border-color:#22c55e}
+.opt input{flex:1}
+.hint{font-size:13px;color:#888;margin-top:6px}
+.prog{color:#fff;font-weight:700;text-align:center;margin:6px 0 10px}
+.bar{height:8px;background:rgba(255,255,255,.3);border-radius:8px;overflow:hidden;margin-bottom:14px}
+.bar div{height:100%;background:#fff;transition:width .3s}
+.center{text-align:center}
+.big{font-size:60px;margin:10px 0}
+.who{font-size:15px;color:#7c4dff;font-weight:900;margin-bottom:6px}
+.q{font-size:22px;font-weight:900;margin-bottom:16px}
+.ans{display:block;width:100%;text-align:left;padding:15px;margin-bottom:10px;border-radius:14px;border:2px solid #e3dcf5;background:#fff;color:#222;-webkit-text-fill-color:#222;font:inherit;font-size:17px;font-weight:700;cursor:pointer}
+.ans.ok{background:#22c55e;border-color:#22c55e;color:#fff;-webkit-text-fill-color:#fff}
+.ans.bad{background:#ef4444;border-color:#ef4444;color:#fff;-webkit-text-fill-color:#fff}
+.ans:disabled{opacity:1}
+.seg button{color:#222}.seg button.on{color:#fff}
+input[type=text]{color:#222;background:#fff}
+.fb{font-weight:900;font-size:20px;text-align:center;margin:6px 0}
+.score{display:flex;gap:10px;margin:14px 0}
+.score div{flex:1;background:#f6f2ff;border-radius:16px;padding:14px 8px;text-align:center}
+.score b{display:block;font-size:34px;color:#5b2be0}
+.score span{font-size:13px;color:#555}
+.share{background:linear-gradient(160deg,#5b2be0,#c1349b);color:#fff;border-radius:20px;padding:22px;text-align:center}
+.share .t{font-weight:900;font-size:24px}
+.share .p{font-size:54px;font-weight:900;margin:6px 0}
+.err{color:#ef4444;font-weight:700;font-size:14px;margin-top:8px;min-height:18px}
+.row{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const BANK=[
+["Benim en sevdiğim renk hangisi?",["Mavi","Kırmızı","Siyah","Yeşil"]],
+["En sevdiğim yemek hangisi?",["Mantı","Lahmacun","Pizza","Karnıyarık"]],
+["En sevdiğim mevsim hangisi?",["İlkbahar","Yaz","Sonbahar","Kış"]],
+["Sabah mı akşam mı insanıyım?",["Kesin sabah","Kesin gece kuşu","Duruma göre","Her saat uykuluyum"]],
+["Tatilde nereye gitmeyi seçerim?",["Deniz kenarı","Dağ/yayla","Yurt dışı şehir turu","Evde kalırım"]],
+["En sevdiğim içecek hangisi?",["Çay","Kahve","Ayran","Kola"]],
+["En çok hangi hayvanı severim?",["Kedi","Köpek","Kuş","Hiçbirini"]],
+["Boş zamanımda en çok ne yaparım?",["Dizi/film izlerim","Telefonla takılırım","Dışarı çıkarım","Uyurum"]],
+["En sevdiğim tatlı hangisi?",["Baklava","Sütlaç","Çikolatalı pasta","Künefe"]],
+["En büyük korkum hangisi?",["Yükseklik","Böcekler","Karanlık","Yalnız kalmak"]],
+["Hangi süper gücü isterdim?",["Uçmak","Görünmez olmak","Zamanı durdurmak","Akıl okumak"]],
+["Kahvaltıda olmazsa olmazım ne?",["Peynir","Yumurta","Simit","Zeytin"]],
+["Hangi müzik türünü daha çok dinlerim?",["Pop","Arabesk","Rap","Rock"]],
+["Sinirlenince ne yaparım?",["Susarım","Bağırırım","Ortamdan uzaklaşırım","Hemen geçer"]],
+["Piyangodan para çıksa ilk ne alırım?",["Ev","Araba","Seyahat","Biriktiririm"]],
+["En sevdiğim film türü hangisi?",["Komedi","Korku","Aksiyon","Romantik"]],
+["Hangi işi yapmayı hiç sevmem?",["Bulaşık","Çamaşır","Ütü","Toz almak"]],
+["Bir günlüğüne kim olmak isterdim?",["Ünlü bir şarkıcı","Bir futbolcu","Bir astronot","Kendim yeterim"]],
+["Sabah alarm çalınca ne yaparım?",["Hemen kalkarım","Ertelerim","Birkaç kez ertelerim","Alarm kurmam"]],
+["En sevdiğim fast food hangisi?",["Hamburger","Döner","Pizza","Tost"]],
+["Telefonumda en çok hangi uygulamayı kullanırım?",["Instagram","WhatsApp","TikTok","YouTube"]],
+["Hangi şehirde yaşamak isterdim?",["İstanbul","İzmir","Antalya","Yurt dışında"]],
+["Kalabalık mı küçük grup mu severim?",["Kalabalık","Küçük grup","Tek bir arkadaş","Yalnızlık"]],
+["Yemekte acı sever miyim?",["Bayılırım","Biraz olur","Sevmem","Asla"]],
+["Doğum günümde ne isterim?",["Sürpriz parti","Sakin bir akşam yemeği","Hediye","Unutulmak"]]
+];
+const $=s=>document.querySelector(s);
+const app=$('#app');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let S={names:['',''],n:10};
+
+function home(){
+  app.innerHTML=`<h1>BEN KİMİM?</h1><p class="sub">Birbirinizi ne kadar tanıyorsunuz?</p>
+  <div class="card">
+   <label>1. oyuncu</label><input type="text" id="n0" maxlength="16" placeholder="Örn. Ayşe" value="${esc(S.names[0])}">
+   <label>2. oyuncu</label><input type="text" id="n1" maxlength="16" placeholder="Örn. Ahmet" value="${esc(S.names[1])}">
+   <label>Kişi başı soru sayısı</label>
+   <div class="seg"><button data-n="10" class="${S.n==10?'on':''}">10</button><button data-n="15" class="${S.n==15?'on':''}">15</button></div>
+   <div class="err" id="err"></div>
+   <button class="btn" id="go">Başla</button>
+  </div>
+  <div class="card"><h2>Nasıl oynanır?</h2>
+  <p>1. Herkes sırayla, diğeri görmeden, kendisiyle ilgili soruları ve doğru cevabını hazırlar.<br>2. Sonra sırayla birbirinizin sorularını cevaplarsınız.<br>3. En sonda kim kimi ne kadar tanıyor, görürsünüz!</p></div>`;
+  app.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{S.n=+b.dataset.n;S.names=[$('#n0').value,$('#n1').value];home()});
+  $('#go').onclick=()=>{
+    const a=$('#n0').value.trim(),b=$('#n1').value.trim();
+    if(!a||!b){$('#err').textContent='İki ismi de yaz.';return}
+    if(a.toLowerCase()===b.toLowerCase()){$('#err').textContent='İsimler farklı olsun.';return}
+    S.names=[a,b];start();
+  };
+}
+
+function start(){
+  S.qs=[[],[]];S.p=0;S.i=0;
+  pass(0,'soruları hazırlama sırası sende!','Diğer oyuncu ekrana bakmasın 🙈',()=>{S.pool=shuffle(BANK.map((_,k)=>k));prep()});
+}
+
+function pass(p,msg,note,next){
+  app.innerHTML=`<div class="card center" style="margin-top:40px">
+   <div class="big">📱</div><h2>Sıra sende, ${esc(S.names[p])}!</h2>
+   <p>${msg}</p><p class="hint" style="margin-top:10px">${note}</p>
+   <button class="btn" id="ok">Hazırım</button></div>`;
+  $('#ok').onclick=next;
+}
+
+function nextFromPool(){
+  if(!S.pool.length)S.pool=shuffle(BANK.map((_,k)=>k));
+  const b=BANK[S.pool.pop()];return{q:b[0],o:b[1].slice(),c:-1};
+}
+
+function prep(){
+  const p=S.p,list=S.qs[p];
+  if(!S.cur)S.cur=nextFromPool();
+  const c=S.cur;
+  app.innerHTML=`<p class="prog">${esc(S.names[p])} hazırlıyor · ${S.i+1} / ${S.n}</p>
+  <div class="bar"><div style="width:${S.i/S.n*100}%"></div></div>
+  <div class="card">
+   <label>Soru (kendinle ilgili)</label>
+   <input type="text" id="q" maxlength="90" value="${esc(c.q)}" placeholder="Örn. En sevdiğim şarkıcı kim?">
+   <label>Şıklar — doğru cevabına dokun ✔</label>
+   ${c.o.map((o,k)=>`<div class="opt"><button class="pick ${c.c===k?'on':''}" data-k="${k}">${c.c===k?'✔':''}</button><input type="text" data-o="${k}" maxlength="40" value="${esc(o)}" placeholder="Şık ${k+1}"></div>`).join('')}
+   <p class="hint">Şıkları istediğin gibi değiştirebilirsin.</p>
+   <div class="row"><button class="btn sec small" id="swap">🔀 Başka soru</button><button class="btn sec small" id="own">✏️ Kendi sorum</button></div>
+   <div class="err" id="err"></div>
+   <button class="btn" id="save">${S.i+1<S.n?'Kaydet, sonraki':'Bitir'}</button>
+  </div>`;
+  const sync=()=>{c.q=$('#q').value;app.querySelectorAll('[data-o]').forEach(i=>c.o[+i.dataset.o]=i.value)};
+  app.querySelectorAll('.pick').forEach(b=>b.onclick=()=>{sync();c.c=+b.dataset.k;prep()});
+  $('#swap').onclick=()=>{S.cur=nextFromPool();prep()};
+  $('#own').onclick=()=>{S.cur={q:'',o:['','','',''],c:-1};prep();$('#q').focus()};
+  $('#save').onclick=()=>{
+    sync();
+    const q=c.q.trim(),o=c.o.map(x=>x.trim());
+    if(!q){$('#err').textContent='Soruyu yaz.';return}
+    if(o.some(x=>!x)){$('#err').textContent='4 şıkkın hepsini doldur.';return}
+    if(new Set(o.map(x=>x.toLowerCase())).size<4){$('#err').textContent='Şıklar birbirinden farklı olsun.';return}
+    if(c.c<0){$('#err').textContent='Doğru cevabını işaretle (yeşil tik).';return}
+    list.push({q,o,c:c.c});S.cur=null;S.i++;
+    if(S.i<S.n){prep();return}
+    if(p===0){S.p=1;S.i=0;pass(1,'şimdi senin soruları hazırlama sıran!','Diğer oyuncu ekrana bakmasın 🙈',prep)}
+    else{S.round=0;S.score=[0,0];pass(0,'sorular hazır, oyun başlıyor! 🎉','Artık ikiniz birlikte bakabilirsiniz.',play)}
+  };
+}
+
+function play(){
+  const total=S.n*2;
+  if(S.round>=total){result();return}
+  const asker=S.round%2,guesser=1-asker,qi=Math.floor(S.round/2),item=S.qs[asker][qi];
+  const order=shuffle([0,1,2,3]);
+  app.innerHTML=`<p class="prog">Soru ${S.round+1} / ${total}</p>
+  <div class="bar"><div style="width:${S.round/total*100}%"></div></div>
+  <div class="card">
+   <div class="who">${esc(S.names[asker])} soruyor → ${esc(S.names[guesser])} cevaplıyor</div>
+   <div class="q">${esc(item.q)}</div>
+   ${order.map(k=>`<button class="ans" data-k="${k}">${esc(item.o[k])}</button>`).join('')}
+   <div id="fb"></div>
+  </div>`;
+  app.querySelectorAll('.ans').forEach(b=>b.onclick=()=>{
+    const k=+b.dataset.k,ok=k===item.c;
+    if(ok)S.score[guesser]++;
+    app.querySelectorAll('.ans').forEach(x=>{x.disabled=true;if(+x.dataset.k===item.c)x.classList.add('ok')});
+    if(!ok)b.classList.add('bad');
+    $('#fb').innerHTML=`<div class="fb">${ok?'Bildin! 🎉':'Bilemedin 😅'}</div><button class="btn" id="nx">${S.round+1<total?'Sonraki soru':'Sonuçları gör'}</button>`;
+    $('#nx').onclick=()=>{S.round++;play()};
+  });
+}
+
+function verdict(p){
+  if(p>=90)return'Ruh ikizi! 💞';if(p>=70)return'Çok iyi tanıyor 😍';
+  if(p>=50)return'Fena değil 🙂';if(p>=30)return'Biraz daha vakit geçirin 😬';return'Siz tanışıyor musunuz? 🤨';
+}
+
+function result(){
+  const [a,b]=S.names,pa=Math.round(S.score[0]/S.n*100),pb=Math.round(S.score[1]/S.n*100),avg=Math.round((pa+pb)/2);
+  const txt=`BEN KİMİM? sonuçları 🎯\n${a} → ${b}: %${pa} (${S.score[0]}/${S.n})\n${b} → ${a}: %${pb} (${S.score[1]}/${S.n})\nUyum: %${avg} — ${verdict(avg)}`;
+  app.innerHTML=`<h1>Sonuçlar</h1>
+  <div class="card">
+   <div class="share"><div class="t">${esc(a)} & ${esc(b)}</div><div class="p">%${avg}</div><div>${verdict(avg)}</div></div>
+   <div class="score">
+    <div><b>%${pa}</b><span>${esc(a)}, ${esc(b)} hakkında ${S.score[0]}/${S.n} bildi</span></div>
+    <div><b>%${pb}</b><span>${esc(b)}, ${esc(a)} hakkında ${S.score[1]}/${S.n} bildi</span></div>
+   </div>
+   <p class="center" style="font-weight:900">${pa===pb?'Berabere! 🤝':`${esc(pa>pb?a:b)} daha iyi tanıyor! 🏆`}</p>
+   <button class="btn" id="cp">📋 Sonucu kopyala</button>
+   <div class="hint center" id="cpm"></div>
+   <button class="btn sec" id="again">Tekrar oyna</button>
+   <button class="btn sec" id="new">Yeni oyuncular</button>
+  </div>`;
+  $('#cp').onclick=async()=>{try{await navigator.clipboard.writeText(txt);$('#cpm').textContent='Kopyalandı! WhatsApp\'a yapıştırabilirsin.'}catch(e){$('#cpm').textContent='Kopyalanamadı, ekran görüntüsü alabilirsin.'}};
+  $('#again').onclick=start;
+  $('#new').onclick=()=>{S.names=['',''];home()};
+}
+home();
+if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
+</script>
+</body>
+</html>
